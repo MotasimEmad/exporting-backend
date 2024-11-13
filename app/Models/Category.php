@@ -6,12 +6,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Category extends Model
 {
     use HasFactory, Uuids;
-    protected $guarded = [];
-
-    public function category() {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
 }

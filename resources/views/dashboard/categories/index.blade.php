@@ -1,7 +1,4 @@
 @extends('layouts.app')
-@section('styles')
-    <link href="/image-uploader/image-uploader.min.css" rel="stylesheet">
-@endsection
 @section('content')
     @if(session('success'))
         <div class="w-full text-white bg-emerald-500 mb-4">
@@ -50,7 +47,7 @@
         <div x-cloak x-data="{ modelOpen: false }" class="flex justify-end">
             <button @click="modelOpen =!modelOpen"
                     class="flex items-center justify-end px-3 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-500 focus:ring focus:ring-gray-300 focus:ring-opacity-50">
-                <span class="mx-1.5">Add New Product</span>
+                <span class="mx-1.5">Add New Category</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-1.5" viewBox="0 0 20 20"
                      fill="currentColor">
                     <path fill-rule="evenodd"
@@ -82,7 +79,7 @@
                          class="inline-block w-full max-w-xl p-8 my-20 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl rtl:text-right 2xl:max-w-2xl"
                     >
                         <div class="flex items-center justify-between">
-                            <h1 class="text-xl font-bold text-gray-800">Add New Product</h1>
+                            <h1 class="text-xl font-bold text-gray-800">Add New Category</h1>
 
                             <button @click="modelOpen = false"
                                     class="text-gray-600 focus:outline-none hover:text-gray-700">
@@ -95,45 +92,13 @@
                             </button>
                         </div>
 
-                        <form id="my-form" class="mt-5" action="{{ route('products.store') }}" method="post"
-                              enctype="multipart/form-data">
+                        <form id="my-form" class="mt-5" action="{{ route('categories.store') }}" method="post">
                             @csrf
-                            <div class="mb-4 text-sm">
-                                <div class="font-bold mb-2">Product Image</div>
-                                <div>
-                                    <input class="w-full cursor-pointer" type="file" name="images[]" id="logo"
-                                           accept="image/*"
-                                           multiple>
-                                </div>
-                            </div>
-
                             <div>
-                                <label for="name" class="block text-sm text-gray-700 mt-4 font-bold">Product name</label>
-                                <input placeholder="Product" type="text" name="name" required
+                                <label for="name" class="block text-sm text-gray-700 mt-4 font-bold">Category name</label>
+                                <input placeholder="Category" type="text" name="name" required
                                        class="@error('name') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">
                                 @error('name')
-                                <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="description" class="block text-sm text-gray-700 mt-4 font-bold">Product description</label>
-                                <textarea name="description" rows="8" required
-                                          class="@error('description') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40"></textarea>
-                                @error('description')
-                                <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div>
-                                <label for="category_id" class="block text-sm text-gray-700 mt-4 font-bold">Category</label>
-                                <select name="category_id" required
-                                       class="@error('category_id') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">
-                                       @foreach($categories as $category)
-                                       <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                       @endforeach
-                                    </select>
-                                @error('category_id')
                                 <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -160,20 +125,13 @@
             </div>
         </div>
 
-        <livewire:product-table />
+        <livewire:category-table />
     </div>
 @endsection
 
 @section('scripts')
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/image-uploader/image-uploader.min.js"></script>
-
-    <script>
-        $(function () {
-            $('.input-images-1').imageUploader();
-        });
-    </script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -183,27 +141,5 @@
                 return true;
             });
         });
-    </script>
-
-    <script>
-        function previewImage() {
-            return {
-                imageUrl: "",
-
-                fileChosen(event) {
-                    this.fileToDataUrl(event, (src) => (this.imageUrl = src));
-                },
-
-                fileToDataUrl(event, callback) {
-                    if (!event.target.files.length) return;
-
-                    let file = event.target.files[0],
-                        reader = new FileReader();
-
-                    reader.readAsDataURL(file);
-                    reader.onload = (e) => callback(e.target.result);
-                },
-            };
-        }
     </script>
 @endsection

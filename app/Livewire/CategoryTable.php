@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class ProductTable extends PowerGridComponent
+final class CategoryTable extends PowerGridComponent
 {
     public function setUp(): array
     {
@@ -28,28 +28,17 @@ final class ProductTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return Product::query();
+        return Category::query();
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('image', function ($model) {
-                return '<img src="' . env('PRODUCTS_PATH').$model->image . '" alt="Product Image" class="w-10 h-10 rounded-full">';
-            })
             ->add('name', function ($model) {
                 return Str::limit($model->name, 20, '...');
             })
-            ->add('description', function ($model) {
-                return Str::limit($model->description, 20, '...');
-            })
-
-            ->add('category_id', function ($model) {
-                return Str::limit($model->category->name, 20, '...');
-            })
-
             ->add('created_at')
-            ->add('created_at_formatted', fn (Product $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->add('created_at_formatted', fn (Category $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
     }
 
     public function columns(): array
@@ -57,17 +46,7 @@ final class ProductTable extends PowerGridComponent
         return [
             Column::action('Option'),
 
-            Column::make('Product image', 'image'),
-
-            Column::make('Product name', 'name')
-                ->searchable()
-                ->sortable(),
-
-            Column::make('Product description', 'description')
-                ->searchable()
-                ->sortable(),
-
-                Column::make('Product category', 'category_id')
+            Column::make('Category name', 'name')
                 ->searchable()
                 ->sortable(),
 
@@ -83,12 +62,12 @@ final class ProductTable extends PowerGridComponent
     #[\Livewire\Attributes\On('edit')]
     public function edit($rowId): void
     {
-        $product = Product::findOrFail($rowId);
-        $this->redirect(route('products.edit', $product->id));
+        $category = Category::findOrFail($rowId);
+        $this->redirect(route('categories.edit', $category->id));
     }
 
 
-    public function actions(Product $row): array
+    public function actions(Category $row): array
     {
         return [
             Button::add('edit')

@@ -22,7 +22,6 @@ class ServicesStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required',
             'name' => 'required',
             'description' => 'required',
         ];
@@ -36,7 +35,6 @@ class ServicesStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'image.required' => 'Service image is required',
             'name.required' => 'Service english name is required.',
             'description.required' => 'Service description is required.',
         ];

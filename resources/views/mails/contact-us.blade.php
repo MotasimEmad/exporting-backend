@@ -25,6 +25,10 @@
                 <span class="text-gray-600 font-semibold">Phone Number:</span>
                 <span class="text-gray-900">{{ $phone_number }}</span>
             </div>
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600 font-semibold">Company Name:</span>
+                <span class="text-gray-900">{{ $company_name }}</span>
+            </div>
             <div class="flex justify-between items-center">
                 <span class="text-gray-600 font-semibold">Message:</span>
                 <span class="text-gray-900">{{ $message_content }}</span>

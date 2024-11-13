@@ -17,9 +17,11 @@ class MessageController extends Controller
             'full_name' => ['required'],
             'email' => ['required'],
             'phone_number' => 'required',
-            'message' => 'required'
+            'message' => 'required',
+            'company_name' => 'required'
         ], [
             'user_name.required' => 'User name is required.',
+            'company_name.required' => 'Company name is required.',
             'email.required' => 'Email is required.',
             'phone_number.required' => 'Phone number is required.',
             'message.required' => 'Message is required.'
@@ -30,7 +32,7 @@ class MessageController extends Controller
         }
 
         try {
-            Mail::to('motasimmax@gmail.com')->send(new ContactUS($request->full_name, $request->email, $request->phone_number, $request->message));
+            Mail::to('contact@tareegalhareer.com')->send(new ContactUS($request->full_name, $request->email, $request->phone_number, $request->message, $request->company_name));
         } catch (\Throwable $exception) {
             Log::info($exception->getMessage());
         }

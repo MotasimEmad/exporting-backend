@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\ProductImage;
 
 class ProductsCollection extends JsonResource
 {
@@ -16,7 +17,7 @@ class ProductsCollection extends JsonResource
     {
         return [
             'id' => $this->id,
-            'image' => env('PRODUCTS_PATH').$this->image,
+            'images' => ProductImagesCollection::collection(ProductImage::where('product_id', $this->id)->get()),
             'name' => $this->name,
             'description' => $this->description,
             'created_at' => $this->created_at

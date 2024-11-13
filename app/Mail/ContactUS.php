@@ -12,17 +12,18 @@ use Illuminate\Queue\SerializesModels;
 class ContactUS extends Mailable
 {
     use Queueable, SerializesModels;
-    public $full_name, $email, $phone_number, $message_content;
+    public $full_name, $email, $phone_number, $message_content, $company_name;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($full_name, $email, $phone_number, $message_content)
+    public function __construct($full_name, $email, $phone_number, $message_content, $company_name)
     {
         $this->full_name = $full_name;
         $this->email = $email;
         $this->phone_number = $phone_number;
         $this->message_content = $message_content;
+        $this->company_name = $company_name;
     }
 
     /**

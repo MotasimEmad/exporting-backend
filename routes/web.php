@@ -22,8 +22,8 @@ Route::get('dashboard', [App\Http\Controllers\Dashboard\HomeController::class, '
 
 
 Route::middleware('auth')->group(function () {
-    // Services Routes
     Route::resource('products', App\Http\Controllers\Dashboard\ProductsController::class);
+    Route::resource('categories', App\Http\Controllers\Dashboard\CategoriesController::class);
 });
 
 require __DIR__ . '/auth.php';

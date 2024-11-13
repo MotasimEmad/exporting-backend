@@ -44,74 +44,15 @@
     @endif
 
     <div class="p-4 bg-white rounded-lg shadow-sm xl:p-8">
-        <form id="my-form" class="mt-5" action="{{ route('products.update', $product->id) }}" method="post"
-              enctype="multipart/form-data">
+        <form id="my-form" class="mt-5" action="{{ route('categories.update', $category->id) }}" method="post">
             @csrf
             @method('patch')
-            <div class="mb-4 text-sm">
-                <div class="w-96 h-96 rounded-md border-2 border-dashed flex items-center justify-center overflow-hidden px-2">
-                    <img src="{{ env('PRODUCTS_PATH'). $product->image }}" class="w-full">
-                </div>
-
-                <div class="font-bold my-4">Product Image</div>
-                <div x-data="previewImage()">
-                    <label for="logo">
-                        <div class="w-full h-60 rounded-md border-2 border-dashed flex items-center justify-center overflow-hidden @error('img') border-2 border-dashed border-red-500 rounded-md focus:border-red-400 @enderror ">
-
-                            <img x-show="imageUrl" :src="imageUrl" class="w-full object-cover">
-                            <div x-show="!imageUrl"
-                                 class="text-gray-300 flex flex-col items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 " fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                </svg>
-                                <div>Click to upload</div>
-                            </div>
-
-                        </div>
-
-                        @error('image')
-                        <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
-                        @enderror
-                    </label>
-
-                    <div hidden>
-                        <label for="logo" class="block mb-2 mt-4 font-bold">Upload image..</label>
-                        <input class="w-full cursor-pointer" type="file" name="image" id="logo"
-                               accept="image/*"
-                               @change="fileChosen">
-                    </div>
-                </div>
-            </div>
-
+           
             <div>
-                <label for="name" class="block text-sm text-gray-700 mt-4 font-bold">Product name</label>
-                <input value="{{ $product->name }}" type="text" name="name" required
+                <label for="name" class="block text-sm text-gray-700 mt-4 font-bold">Category name</label>
+                <input value="{{ $category->name }}" type="text" name="name" required
                        class="@error('name') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">
                 @error('name')
-                <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div>
-                <label for="description" class="block text-sm text-gray-700 mt-4 font-bold">Product description</label>
-                <textarea name="description" rows="8" required
-                          class="@error('description') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">{{ $product->description }}</textarea>
-                @error('description')
-                <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div>
-                <label for="category_id" class="block text-sm text-gray-700 mt-4 font-bold">Category</label>
-                <select name="category_id" required
-                       class="@error('category_id') border border-red-500 rounded-md focus:border-red-400 @enderror block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-200 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">
-                       @foreach($categories as $category)
-                       <option value="{{ $category->id }}" {{ $category->id == $product->category_id ? 'selected' : '' }}>{{ $category->name }}</option>
-                       @endforeach
-                    </select>
-                @error('category_id')
                 <div class="mt-2 text-sm text-red-500">{{ $message }}</div>
                 @enderror
             </div>
@@ -133,7 +74,7 @@
         </form>
     </div>
 
-    <form action="{{ route('products.destroy', $product->id) }}" method="post">
+    <form action="{{ route('categories.destroy', $category->id) }}" method="post">
         @csrf
         @method('delete')
         <div class="mt-2 p-4 bg-white rounded-lg shadow-sm xl:p-8 flex flex-col md:flex-row items-center justify-between">
@@ -162,27 +103,5 @@
                 return true;
             });
         });
-    </script>
-
-    <script>
-        function previewImage() {
-            return {
-                imageUrl: "",
-
-                fileChosen(event) {
-                    this.fileToDataUrl(event, (src) => (this.imageUrl = src));
-                },
-
-                fileToDataUrl(event, callback) {
-                    if (!event.target.files.length) return;
-
-                    let file = event.target.files[0],
-                        reader = new FileReader();
-
-                    reader.readAsDataURL(file);
-                    reader.onload = (e) => callback(e.target.result);
-                },
-            };
-        }
     </script>
 @endsection
